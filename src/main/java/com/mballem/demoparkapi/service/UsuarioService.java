@@ -2,12 +2,13 @@ package com.mballem.demoparkapi.service;
 
 import java.util.List;
 
+import com.mballem.demoparkapi.exception.PasswordInvalidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mballem.demoparkapi.entity.Usuario;
-import com.mballem.demoparkapi.exception.UsernameUniqueViolationExpcetion;
+import com.mballem.demoparkapi.exception.UsernameUniqueViolationException;
 import com.mballem.demoparkapi.repository.UsuarioRepository;
 import com.mballem.demoparkapi.service.exception.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException; 
@@ -24,7 +25,7 @@ public class UsuarioService {
 		try {
 			return usuarioRepository.save(usuario);
 		} catch (DataIntegrityViolationException ex) {
-			throw new UsernameUniqueViolationExpcetion(
+			throw new UsernameUniqueViolationException(
 					String.format("Username deve ser unico para cada usuário : ", usuario.getUsername()));
 		}
 
@@ -54,24 +55,17 @@ public class UsuarioService {
 	 * explicitamente o método save.
 	 */
 	public Usuario editarSenha(Long id, String senhaAtual, String novaSenha, String confirmaSenha) {
-
-		try {
 		if (!novaSenha.equals(confirmaSenha)) {
-			throw new RuntimeException("A confirmação de senha e a nova senha devem ser iguais");
+			throw new PasswordInvalidException("Nova senha não confere com confirmação de senha.");
 		}
-		Usuario u = buscarPorId(id);
 
-		if (!u.getPassword().equals(senhaAtual)) {
-			throw new RuntimeException("A senha atual está incorreta  ");
+		Usuario user = buscarPorId(id);
+		if (!user.getPassword().equals(senhaAtual)) {
+			throw new PasswordInvalidException("Sua senha não confere.");
 		}
-		u.setPassword(novaSenha);
-		return u;
-		}catch(Exception e) {
-			String.format(e.getMessage());
-		}
-		return null;
-		
 
+		user.setPassword(novaSenha);
+		return user;
 	}
 
 	@Transactional(readOnly = true)

@@ -8,7 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.mballem.demoparkapi.exception.UsernameUniqueViolationExpcetion;
+import com.mballem.demoparkapi.exception.UsernameUniqueViolationException;
 import com.mballem.demoparkapi.service.exception.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -31,7 +31,7 @@ public class ApiExceptionHandler {
 
 	
 	
-	@ExceptionHandler(UsernameUniqueViolationExpcetion.class)
+	@ExceptionHandler(UsernameUniqueViolationException.class)
 	public ResponseEntity<ErrorMessage> UsernameUniqueViolationExpcetion(RuntimeException ex,
 			HttpServletRequest request) {
 		return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON)
@@ -51,7 +51,11 @@ public class ApiExceptionHandler {
 														//de informações,no caso um usuário tentando
 														//cadastrar um e-mail que já existe
 	}
-	
+
+	@ExceptionHandler(NullPointerException.class)
+	public ResponseEntity<ErrorMessage> NullPointerException(RuntimeException ex,HttpServletRequest request){
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request,HttpStatus.BAD_REQUEST,ex.getMessage()));
+	}
 	
 	
 }
