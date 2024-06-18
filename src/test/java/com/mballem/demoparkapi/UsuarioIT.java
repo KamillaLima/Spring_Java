@@ -1,8 +1,8 @@
 package com.mballem.demoparkapi;
 
-import com.mballem.demoparkapi.dto.UsuarioCreateDto;
-import com.mballem.demoparkapi.dto.UsuarioResponseDto;
-import com.mballem.demoparkapi.dto.UsuarioSenhaDto;
+import com.mballem.demoparkapi.web.dto.UsuarioCreateDto;
+import com.mballem.demoparkapi.web.dto.UsuarioResponseDto;
+import com.mballem.demoparkapi.web.dto.UsuarioSenhaDto;
 import com.mballem.demoparkapi.web.exception.ErrorMessage;
 
 import org.junit.jupiter.api.Test;

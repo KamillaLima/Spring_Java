@@ -1,12 +1,12 @@
-package com.mballem.demoparkapi.dto.mapper;
+package com.mballem.demoparkapi.web.dto.mapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 
-import com.mballem.demoparkapi.dto.UsuarioCreateDto;
-import com.mballem.demoparkapi.dto.UsuarioResponseDto;
+import com.mballem.demoparkapi.web.dto.UsuarioCreateDto;
+import com.mballem.demoparkapi.web.dto.UsuarioResponseDto;
 import com.mballem.demoparkapi.entity.Usuario;
 
 public class UsuarioMapper {

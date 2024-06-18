@@ -1,4 +1,4 @@
-package com.mballem.demoparkapi.dto;
+package com.mballem.demoparkapi.web.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

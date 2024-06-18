@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mballem.demoparkapi.exception.PasswordInvalidException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,12 +18,14 @@ public class UsuarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	private PasswordEncoder passwordEncoder;
 
 	@Transactional
 	// o spring vai tomar conta pra abrir gerenciar e fechar
 	// a a transacao do metodo save.
 	public Usuario salvar(Usuario usuario) {
 		try {
+			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 			return usuarioRepository.save(usuario);
 		} catch (DataIntegrityViolationException ex) {
 			throw new UsernameUniqueViolationException(
@@ -60,11 +63,11 @@ public class UsuarioService {
 		}
 
 		Usuario user = buscarPorId(id);
-		if (!user.getPassword().equals(senhaAtual)) {
+		if (!passwordEncoder.matches(senhaAtual , user.getPassword())) {
 			throw new PasswordInvalidException("Sua senha não confere.");
 		}
 
-		user.setPassword(novaSenha);
+		user.setPassword(passwordEncoder.encode(novaSenha));
 		return user;
 	}
 
@@ -73,4 +76,19 @@ public class UsuarioService {
 	public List<Usuario> buscarTodos() {
 		return usuarioRepository.findAll();
 	}
+
+	@Transactional(readOnly = true)
+    public Usuario buscarPorUsername(String username) {
+		return  usuarioRepository.findByUsername(username).orElseThrow(
+
+
+				() -> new EntityNotFoundException("USUARIO COM USERNAME NÃO ENCONTRADO : " + username));
+	}
+
+	@Transactional(readOnly = true)
+	public Usuario.Role buscarRolePorUsername(String username) {
+		return usuarioRepository.findRoleByUsername(username);
+	}
+
 }
+

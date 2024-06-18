@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mballem.demoparkapi.dto.UsuarioCreateDto;
-import com.mballem.demoparkapi.dto.UsuarioResponseDto;
-import com.mballem.demoparkapi.dto.UsuarioSenhaDto;
-import com.mballem.demoparkapi.dto.mapper.UsuarioMapper;
+import com.mballem.demoparkapi.web.dto.UsuarioCreateDto;
+import com.mballem.demoparkapi.web.dto.UsuarioResponseDto;
+import com.mballem.demoparkapi.web.dto.UsuarioSenhaDto;
+import com.mballem.demoparkapi.web.dto.mapper.UsuarioMapper;
 import com.mballem.demoparkapi.entity.Usuario;
 import com.mballem.demoparkapi.service.UsuarioService;
 
